@@ -6,6 +6,7 @@ A Springboot based API application to manage recipients, offers, and voucher cre
 
 - Create and manage Recipients and SepcialOffers
 - Generate Vouchers for a recipient and offer
+- Get all valid vouchers for a recipient
 - Redeem vouchers by code
 - Built-in error handling
 - Uses H2 in-memory database
