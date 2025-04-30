@@ -36,13 +36,12 @@ Password: (leave blank)
 
 ### Folder Structure
 src/main/java/com/boost/voucher_api/
-│
-├── controller         # REST Controllers
-├── model              # Entity classes
-├── repository         # JPA Repositories
-├── service            # Business logic
-├── exception          # Custom exception handlers
-└── VoucherApiApplication.java
+
+controller         # REST Controllers
+model              # Entity classes
+repository         # JPA Repositories
+service            # Business logic
+VoucherApiApplication.java
 
 ## API Endpoints
 - endpoints are used to create recipients, special offers and vouchers
@@ -51,6 +50,7 @@ src/main/java/com/boost/voucher_api/
   - creating recipients
   - creating special offers
   - creating vouchers
+  - validate all vouchers linked to email account
   - redeem vouchers (use vouchher id returned in previous step)
 - refer to src/test/java/com/boost/voucher_api/test.http for curl commands
 ## POST /recipients
@@ -97,6 +97,10 @@ Response HTTP 200 OK
 "specialOffer":{"id":2,"name":"NEW2BOOST","percentageDiscount":15.0},
 "expirationDate":"2025-12-31","usedAt":null
 }
+
+## GET /vouchers/valid?email={email_address}
+Response HTTP 200 OK
+[{"code":"24B4B4C5","offerName":"NEW2BOOST"}]
 
 ## POST /vouchers/redeem/{code}
 Response HTTP 200 OK

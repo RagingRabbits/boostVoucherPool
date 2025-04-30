@@ -23,6 +23,9 @@ curl -X POST http://localhost:8080/vouchers/create \
     "expirationDate": "2025-12-31"
 }'
 
+### Check for valid Vouchers
+curl -X GET "http://172.21.240.1:8080/vouchers/valid?email=andrew@boost.com"
+
 ### Redeem a Voucher
 curl -X POST http://localhost:8080/vouchers/redeem/{VOUCHER_CODE}
 

@@ -1,6 +1,7 @@
 package com.boost.voucher_api.controller;
 
 import com.boost.voucher_api.dto.CreateVoucherRequest;
+import com.boost.voucher_api.dto.VoucherInfoDTO;
 import com.boost.voucher_api.model.*;
 import com.boost.voucher_api.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Handles creating and redeeming of vouchers
@@ -47,5 +49,17 @@ public class VoucherController {
     public ResponseEntity<Voucher> redeem(@PathVariable String code) {
         Voucher voucher = voucherService.useVoucher(code);
         return ResponseEntity.status(201).body(voucher);
+    }
+
+    /**
+     * Endpoint to retrieve all valid vouchers for recipient
+     *
+     * @param email Email of the recipient
+     * @return List of VoucherInfoDTO containing code and offer name
+     */
+    @GetMapping("/valid")
+    public ResponseEntity<List<VoucherInfoDTO>> getValidVouchers(@RequestParam String email) {
+        List<VoucherInfoDTO> vouchers = voucherService.getValidVouchersByEmail(email);
+        return ResponseEntity.ok(vouchers);
     }
 }

@@ -1,5 +1,6 @@
 package com.boost.voucher_api.service;
 
+import com.boost.voucher_api.dto.VoucherInfoDTO;
 import com.boost.voucher_api.model.*;
 import com.boost.voucher_api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
@@ -73,5 +76,27 @@ public class VoucherService {
 
         voucher.setUsedAt(LocalDateTime.now());
         return voucherRepository.save(voucher);
+    }
+
+    /**
+     * Retrieves all valid vouchers for given recipient email.
+     * @param email the email address of recipient
+     * @return VoucherInfoDTO where it contains voucher info and its name
+     * @throws ResponseStatusException if email address is not found
+     */
+    public List<VoucherInfoDTO> getValidVouchersByEmail(String email) {
+        // ensure recipient exists
+        recipientRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Recipient not found"));
+
+        // fetch all vouchers for email
+        List<Voucher> vouchers = voucherRepository.findByRecipientEmail(email);
+        LocalDate today = LocalDate.now();
+
+        return vouchers.stream()
+                .filter(v -> v.getUsedAt() == null)
+                .filter(v -> v.getExpirationDate() == null || !v.getExpirationDate().isBefore(today))
+                .map(v -> new VoucherInfoDTO(v.getCode(), v.getSpecialOffer().getName()))
+                .collect(Collectors.toList());
     }
 }
