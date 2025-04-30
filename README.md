@@ -79,8 +79,8 @@ Request Body (JSON)
 Response HTTP 200 OK
 {
 "id":1,
-"name":"10% OFF",
-"percentageDiscount":10.0
+"name":"NEW2BOOST",
+"percentageDiscount":15.0
 }
 
 ## POST /vouchers/create
