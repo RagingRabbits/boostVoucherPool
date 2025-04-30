@@ -1,27 +1,28 @@
 ### Create a Recipient
-POST http://localhost:8080/recipients
-Content-Type: application/json
-
-{
-"name": "andrew",
-"email": "andrew@boost.com"
-}
+curl -X POST http://localhost:8080/recipients \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "andrew",
+    "email": "andrew@boost.com"
+}'
 
 ### Create a Special Offer
-POST http://localhost:8080/offers
-Content-Type: application/json
-
-{
-"name": "NEW2BOOST",
-"percentageDiscount": 15.0
-}
+curl -X POST http://localhost:8080/offers \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "NEW2BOOST",
+    "percentageDiscount": 15.0
+}'
 
 ### Create a Voucher (update IDs as needed)
-POST http://localhost:8080/vouchers/create
-Content-Type: application/json
+curl -X POST http://localhost:8080/vouchers/create \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recipientEmail": "andrew@boost.com",
+    "offerName": "NEW2BOOST",
+    "expirationDate": "2025-12-31"
+}'
 
-{
-"recipientEmail": "andrew@boost.com",
-"offerName": "NEW2BOOST",
-"expirationDate": "2025-12-31"
-}
+### Redeem a Voucher
+curl -X POST http://localhost:8080/vouchers/redeem/{VOUCHER_CODE}
+

@@ -52,7 +52,7 @@ src/main/java/com/boost/voucher_api/
   - creating special offers
   - creating vouchers
   - redeem vouchers (use vouchher id returned in previous step)
-
+- refer to src/test/java/com/boost/voucher_api/test.http for curl commands
 ## POST /recipients
 
 Request Body (JSON)
