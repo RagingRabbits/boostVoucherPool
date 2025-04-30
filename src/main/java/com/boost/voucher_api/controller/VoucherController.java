@@ -17,13 +17,14 @@ public class VoucherController {
     private VoucherService voucherService;
 
     @PostMapping("/create")
-    public ResponseEntity<Voucher> create(@RequestBody CreateVoucherRequest req) {
-        Voucher voucher = voucherService.createVoucher(req.getRecipient(), req.getOffer(), req.getExpirationDate());
-        return ResponseEntity.ok(voucher);
+    public ResponseEntity<Voucher> create(@RequestBody CreateVoucherRequest request) {
+        Voucher voucher = voucherService.createVoucherByEmailAndOfferName(request.getRecipientEmail(), request.getOfferName(), request.getExpirationDate());
+        return ResponseEntity.status(201).body(voucher);
     }
 
     @PostMapping("/redeem/{code}")
     public ResponseEntity<Voucher> redeem(@PathVariable String code) {
-        return ResponseEntity.ok(voucherService.useVoucher(code));
+        Voucher voucher = voucherService.useVoucher(code);
+        return ResponseEntity.status(201).body(voucher);
     }
 }

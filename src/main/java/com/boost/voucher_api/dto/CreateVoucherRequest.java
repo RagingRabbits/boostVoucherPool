@@ -10,8 +10,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class CreateVoucherRequest {
-    private Recipient recipient;
-    private SpecialOffer offer;
+    private String recipientEmail;
+    private String offerName;
     private LocalDate expirationDate;
 
     // Getters and setters
