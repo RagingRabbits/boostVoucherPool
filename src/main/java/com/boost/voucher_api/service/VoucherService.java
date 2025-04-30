@@ -12,6 +12,9 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+/**
+ * Service class containing business logic related to voucher creation and redemption.
+ */
 @Service
 public class VoucherService {
 
@@ -24,19 +27,15 @@ public class VoucherService {
     @Autowired
     private SpecialOfferRepository offerRepository;
 
-//    public Voucher createVoucher(Long recipientId, Long offerId, LocalDate expirationDate) {
-//        Recipient recipient = recipientRepository.findById(recipientId)
-//                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Recipient not found"));
-//        SpecialOffer offer = offerRepository.findById(offerId)
-//                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Special offer not found"));
-//        Voucher voucher = new Voucher();
-//        voucher.setCode(UUID.randomUUID().toString().replace("-", "").substring(0, 8).toUpperCase());
-//        voucher.setRecipient(recipient);
-//        voucher.setSpecialOffer(offer);
-//        voucher.setExpirationDate(expirationDate);
-//        return voucherRepository.save(voucher);
-//    }
-
+    /**
+     * Creates a new voucher for a recipient and offer using email and offer name
+     *
+     * @param recipientEmail   Email of the recipient.
+     * @param offerName        Name of the special offer.
+     * @param expirationDate   Expiration date of the voucher.
+     * @return The created Voucher object.
+     * @throws ResponseStatusException if recipient or offer is not found.
+     */
     public Voucher createVoucherByEmailAndOfferName(String recipientEmail, String offerName, LocalDate expirationDate) {
         Recipient recipient = recipientRepository.findByEmail(recipientEmail)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Recipient not found"));
@@ -53,6 +52,13 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
 
+    /**
+     * Redeems a voucher using its code. Validates expiration and usage status.
+     *
+     * @param code Unique voucher code.
+     * @return The updated (redeemed) Voucher object.
+     * @throws RuntimeException if voucher is not found, expired, or already used.
+     */
     public Voucher useVoucher(String code) {
         Voucher voucher = voucherRepository.findByCode(code)
                 .orElseThrow(() -> new RuntimeException("Voucher not found"));
